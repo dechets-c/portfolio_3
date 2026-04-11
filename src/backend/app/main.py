@@ -1,6 +1,9 @@
 from fastapi import FastAPI
+from app.routers import admin
+
 
 app = FastAPI()
+app.include_router(admin)
 
 
 def main():
