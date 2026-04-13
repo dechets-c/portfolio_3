@@ -1,5 +1,6 @@
 from app.schemas.competence import CompetenceCreate
 from app.schemas.formation import FormationCreate
+from app.schemas.outil import OutilCreate
 from fastapi import APIRouter, Depends  # depends pour ce qui est dans dependencies
 from sqlalchemy.orm import Session
 
@@ -27,7 +28,7 @@ def create_competence(data: CompetenceCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_comp)
 
-    return {"message": "Compétence inséré avec succès", "id": new_comp.id}
+    return {"message": "Compétence insérée avec succès", "id": new_comp.id}
 
 
 @router.post("/create_formation")
@@ -37,7 +38,17 @@ def create_formation(data: FormationCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_form)
 
-    return {"message": "Formation inséré avec succès", "id": new_form.id}
+    return {"message": "Formation insérée avec succès", "id": new_form.id}
+
+
+@router.post("/create_outil")
+def create_outil(data: OutilCreate, db: Session = Depends(get_db)):
+    new_outil = models.Outil(**data.model_dump())
+    db.add(new_outil)
+    db.commit()
+    db.refresh(new_outil)
+
+    return {"message": "Outil inséré avec succès", "id": new_outil.id}
 
 
 @router.post("/delete")
