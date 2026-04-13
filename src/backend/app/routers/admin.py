@@ -1,3 +1,4 @@
+from app.schemas.competence import CompetenceCreate
 from fastapi import APIRouter, Depends  # depends pour ce qui est dans dependencies
 from sqlalchemy.orm import Session
 
@@ -16,6 +17,16 @@ def create_project(data: ProjectCreate, db: Session = Depends(get_db)):
     db.refresh(new_project)
 
     return {"message": "Projet inséré avec succès", "id": new_project.id}
+
+
+@router.post("/create_competence")
+def create_competence(data: CompetenceCreate, db: Session = Depends(get_db)):
+    new_comp = models.Competence(**data.model_dump())
+    db.add(new_comp)
+    db.commit()
+    db.refresh(new_comp)
+
+    return {"message": "Compétence inséré avec succès", "id": new_comp.id}
 
 
 @router.post("/delete")
