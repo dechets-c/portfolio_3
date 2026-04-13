@@ -4,6 +4,7 @@ from .formation import FormationCreate
 from .outil import OutilCreate
 from .profile import ProfilCreate
 from .loisir import LoisirCreate
+from .langage import LangageCreate
 
 __all__ = [
     "ProjectCreate",
@@ -12,4 +13,5 @@ __all__ = [
     "OutilCreate",
     "ProfilCreate",
     "LoisirCreate",
+    "LangageCreate",
 ]

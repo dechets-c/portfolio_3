@@ -1,5 +1,6 @@
 from app.schemas.competence import CompetenceCreate
 from app.schemas.formation import FormationCreate
+from app.schemas.langage import LangageCreate
 from app.schemas.loisir import LoisirCreate
 from app.schemas.outil import OutilCreate
 from app.schemas.profile import ProfilCreate
@@ -71,6 +72,16 @@ def create_loisir(data: LoisirCreate, db: Session = Depends(get_db)):
     db.refresh(new_loisir)
 
     return {"message": "Loisir inséré avec succès", "id": new_loisir.id}
+
+
+@router.post("/create_langage")
+def create_langage(data: LangageCreate, db: Session = Depends(get_db)):
+    new_lang = models.Outil(**data.model_dump())
+    db.add(new_lang)
+    db.commit()
+    db.refresh(new_lang)
+
+    return {"message": "Langage inséré avec succès", "id": new_lang.id}
 
 
 @router.post("/delete")
