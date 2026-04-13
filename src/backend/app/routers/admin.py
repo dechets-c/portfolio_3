@@ -1,6 +1,7 @@
 from app.schemas.competence import CompetenceCreate
 from app.schemas.formation import FormationCreate
 from app.schemas.outil import OutilCreate
+from app.schemas.profile import ProfilCreate
 from fastapi import APIRouter, Depends  # depends pour ce qui est dans dependencies
 from sqlalchemy.orm import Session
 
@@ -49,6 +50,16 @@ def create_outil(data: OutilCreate, db: Session = Depends(get_db)):
     db.refresh(new_outil)
 
     return {"message": "Outil inséré avec succès", "id": new_outil.id}
+
+
+@router.post("/create_profile")
+def create_profile(data: ProfilCreate, db: Session = Depends(get_db)):
+    new_prof = models.Outil(**data.model_dump())
+    db.add(new_prof)
+    db.commit()
+    db.refresh(new_prof)
+
+    return {"message": "Profil inséré avec succès", "id": new_prof.id}
 
 
 @router.post("/delete")
