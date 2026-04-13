@@ -3,6 +3,7 @@ from .competence import CompetenceCreate
 from .formation import FormationCreate
 from .outil import OutilCreate
 from .profile import ProfilCreate
+from .loisir import LoisirCreate
 
 __all__ = [
     "ProjectCreate",
@@ -10,4 +11,5 @@ __all__ = [
     "FormationCreate",
     "OutilCreate",
     "ProfilCreate",
+    "LoisirCreate",
 ]

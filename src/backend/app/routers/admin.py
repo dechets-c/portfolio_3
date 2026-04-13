@@ -1,5 +1,6 @@
 from app.schemas.competence import CompetenceCreate
 from app.schemas.formation import FormationCreate
+from app.schemas.loisir import LoisirCreate
 from app.schemas.outil import OutilCreate
 from app.schemas.profile import ProfilCreate
 from fastapi import APIRouter, Depends  # depends pour ce qui est dans dependencies
@@ -60,6 +61,16 @@ def create_profile(data: ProfilCreate, db: Session = Depends(get_db)):
     db.refresh(new_prof)
 
     return {"message": "Profil inséré avec succès", "id": new_prof.id}
+
+
+@router.post("/create_loisir")
+def create_loisir(data: LoisirCreate, db: Session = Depends(get_db)):
+    new_loisir = models.Outil(**data.model_dump())
+    db.add(new_loisir)
+    db.commit()
+    db.refresh(new_loisir)
+
+    return {"message": "Loisir inséré avec succès", "id": new_loisir.id}
 
 
 @router.post("/delete")
