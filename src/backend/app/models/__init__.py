@@ -6,6 +6,7 @@ from .profile import Profile
 from .loisir import Loisir
 from .langage import Langage
 from .certification import Certification
+from .experience import Experience
 
 __all__ = [
     "Project",
@@ -16,4 +17,5 @@ __all__ = [
     "Loisir",
     "Langage",
     "Certification",
+    "Experience",
 ]

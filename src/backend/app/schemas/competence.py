@@ -4,7 +4,7 @@ from enum import Enum
 from pydantic import BaseModel
 
 
-class _CategorieComp(Enum):
+class _CategorieComp(str, Enum):
     STAT = "Statistiques"
     DEV = "Développement"
     DATA = "Data"

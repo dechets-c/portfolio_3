@@ -5,6 +5,7 @@ from .outil import OutilCreate
 from .profile import ProfilCreate
 from .loisir import LoisirCreate
 from .langage import LangageCreate
+from .experience import ExperienceCreate
 from .certification import CertificationCreate
 
 __all__ = [
@@ -16,4 +17,5 @@ __all__ = [
     "LoisirCreate",
     "LangageCreate",
     "CertificationCreate",
+    "ExperienceCreate",
 ]

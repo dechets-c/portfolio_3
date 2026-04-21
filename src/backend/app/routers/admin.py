@@ -11,6 +11,7 @@ from app.schemas import (
     FormationCreate,
     LoisirCreate,
     LangageCreate,
+    ExperienceCreate,
 )
 from app import models
 
@@ -85,7 +86,20 @@ def create_certif(data: CertificationCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_certif)
 
-    return {"message": "Certification inséré avec succès", "id": new_certif.id}
+    return {
+        "message": "Certification inséré avec succès",
+        "id": new_certif.id_certification,
+    }
+
+
+@router.post("/create_experience")
+def create_exp(data: ExperienceCreate, db: Session = Depends(get_db)):
+    new_exp = models.Experience(**data.model_dump())
+    db.add(new_exp)
+    db.commit()
+    db.refresh(new_exp)
+
+    return {"message": "Expérience inséré avec succès", "id": new_exp.id_experience}
 
 
 @router.post("/create_langage")
