@@ -1,15 +1,19 @@
-from app.schemas.competence import CompetenceCreate
-from app.schemas.formation import FormationCreate
-from app.schemas.langage import LangageCreate
-from app.schemas.loisir import LoisirCreate
-from app.schemas.outil import OutilCreate
-from app.schemas.profile import ProfilCreate
 from fastapi import APIRouter, Depends  # depends pour ce qui est dans dependencies
 from sqlalchemy.orm import Session
 
 from app.dependencies import get_db
-from app.schemas import ProjectCreate
+from app.schemas import (
+    ProjectCreate,
+    CertificationCreate,
+    CompetenceCreate,
+    ProfilCreate,
+    OutilCreate,
+    FormationCreate,
+    LoisirCreate,
+    LangageCreate,
+)
 from app import models
+
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 
@@ -72,6 +76,16 @@ def create_loisir(data: LoisirCreate, db: Session = Depends(get_db)):
     db.refresh(new_loisir)
 
     return {"message": "Loisir inséré avec succès", "id": new_loisir.id}
+
+
+@router.post("/create_certification")
+def create_certif(data: CertificationCreate, db: Session = Depends(get_db)):
+    new_certif = models.Certification(**data.model_dump())
+    db.add(new_certif)
+    db.commit()
+    db.refresh(new_certif)
+
+    return {"message": "Certification inséré avec succès", "id": new_certif.id}
 
 
 @router.post("/create_langage")
