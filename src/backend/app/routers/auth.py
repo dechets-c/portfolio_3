@@ -1,5 +1,5 @@
 import logging
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
@@ -11,6 +11,11 @@ from app.core.security import (
     get_password_hash,
     create_access_token,
     decode_access_token,
+)
+from app.core.exceptions import (
+    ConflictException,
+    NotAuthenticatedException,
+    ResourceNotFoundException,
 )
 from fastapi.security import OAuth2PasswordBearer
 
@@ -27,7 +32,10 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
     existing = db.query(User).filter(User.email == user.email).first()
     if existing:
         logger.warning(f"Registration failed: Email {user.email} already registered")
-        raise HTTPException(status_code=400, detail="Email already registered")
+        raise ConflictException(
+            f"Email {user.email} is already registered",
+            error_code="EMAIL_ALREADY_REGISTERED",
+        )
     db_user = User(email=user.email, hashed_password=get_password_hash(user.password))
     db.add(db_user)
     db.commit()
@@ -44,10 +52,8 @@ def login_for_access_token(
     user = db.query(User).filter(User.email == form_data.username).first()
     if not user or not verify_password(form_data.password, user.hashed_password):
         logger.warning(f"Login failed for email: {form_data.username}")
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect username or password",
-            headers={"WWW-Authenticate": "Bearer"},
+        raise NotAuthenticatedException(
+            "Incorrect email or password", error_code="INVALID_CREDENTIALS"
         )
     access_token = create_access_token({"sub": user.email})
     logger.info(f"Login successful for email: {form_data.username}")
@@ -62,15 +68,17 @@ def get_current_user(
         email = payload.get("sub")
         if email is None:
             logger.warning("Invalid token: no email in payload")
-            raise HTTPException(
-                status_code=401, detail="Invalid authentication credentials"
-            )
+            raise NotAuthenticatedException("Invalid token", error_code="INVALID_TOKEN")
         user = db.query(User).filter(User.email == email).first()
         if not user:
             logger.warning(f"User not found for email: {email}")
-            raise HTTPException(status_code=401, detail="User not found")
+            raise ResourceNotFoundException("User")
         logger.debug(f"User authenticated: {email}")
         return user
     except Exception as e:
         logger.error(f"Authentication error: {str(e)}")
-        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+        if isinstance(e, (NotAuthenticatedException, ResourceNotFoundException)):
+            raise
+        raise NotAuthenticatedException(
+            "Invalid authentication credentials", error_code="AUTH_ERROR"
+        )
