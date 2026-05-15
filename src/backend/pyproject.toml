@@ -12,4 +12,17 @@ dependencies = [
     "pydantic-extra-types>=2.11.1",
     "python-dotenv>=1.2.2",
     "sqlalchemy>=2.0.49",
+    "passlib[bcrypt]>=1.7.4",
+    "python-jose[cryptography]>=3.3.0",
+    "bcrypt>=4.0.0",
+    "uvicorn>=0.22.0",
+    "email-validator>=1.3.0",
+    "pydantic[email]>=2.12.5",
+    "python-multipart>=0.0.28",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.3",
+    "httpx>=0.24.0",
 ]
