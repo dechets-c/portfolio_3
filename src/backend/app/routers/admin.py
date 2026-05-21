@@ -9,7 +9,17 @@ from fastapi import APIRouter, Depends  # depends pour ce qui est dans dependenc
 from sqlalchemy.orm import Session
 
 from app.dependencies import get_db
-from app.schemas import ProjectCreate
+from app.schemas import (
+    ProjectCreate,
+    CertificationCreate,
+    CompetenceCreate,
+    ProfilCreate,
+    OutilCreate,
+    FormationCreate,
+    LoisirCreate,
+    LangageCreate,
+    ExperienceCreate,
+)
 from app import models
 from app.routers.auth import get_current_user
 from fastapi import HTTPException, status

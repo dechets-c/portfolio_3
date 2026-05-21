@@ -5,7 +5,7 @@ from typing import Optional
 from pydantic import BaseModel
 
 
-class _NiveauFormation(Enum):
+class _NiveauFormation(str, Enum):
     BAC = "Bac"
     BUT = "Bac +3"
     INGE = "Bac +5"
@@ -13,7 +13,7 @@ class _NiveauFormation(Enum):
     MASTER = "Bac +5"
 
 
-class _Secteur(Enum):
+class _Secteur(str, Enum):
     INFO = "Informatique"
     DATA = "Data"
 

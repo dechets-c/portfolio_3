@@ -4,7 +4,7 @@ from typing import Optional
 from pydantic import BaseModel, HttpUrl
 
 
-class _OutilCategory(Enum):
+class _OutilCategory(str, Enum):
     DEV = "Developpement"
     DATA = "Data"
     BUR = "Bureautique"
