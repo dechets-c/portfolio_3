@@ -12,3 +12,6 @@ wheels/
 
 # Var env
 .env
+
+# test db
+*.db

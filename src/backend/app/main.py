@@ -7,6 +7,7 @@ from app.core.config import CORS_ORIGINS, LOG_LEVEL, ENVIRONMENT
 from app.core.exceptions import AppException
 from app.middleware import RequestIDMiddleware, LoggingMiddleware
 from app.schemas.errors import ErrorResponse, ErrorDetail, HealthCheckResponse
+from app.db.database import Base, engine
 
 # Configure logging
 logging.basicConfig(
@@ -85,6 +86,13 @@ app.include_router(auth.router)
 
 logger.info(f"FastAPI app initialized (environment: {ENVIRONMENT})")
 logger.info(f"CORS origins: {CORS_ORIGINS if ENVIRONMENT == 'production' else 'all'}")
+
+
+@app.on_event("startup")
+def startup_create_tables():
+    """Ensure tables exist for local development and testing."""
+    Base.metadata.create_all(bind=engine)
+    logger.info("Database tables ensured on startup")
 
 
 @app.get("/health", response_model=HealthCheckResponse)

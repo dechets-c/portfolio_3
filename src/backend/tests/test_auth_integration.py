@@ -15,7 +15,6 @@ def get_test_engine(db_path):
     )
 
 
-
 def override_get_db(engine):
     SessionTesting = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
@@ -90,14 +89,19 @@ def test_update_and_delete_project():
     Base.metadata.create_all(bind=engine)
 
     from app.core import security as sec
+
     sec.SECRET_KEY = "test-secret-for-integration"
 
     app.dependency_overrides[get_db] = override_get_db(engine)
     client = TestClient(app)
 
     # register and login
-    client.post("/auth/register", json={"email": "alice@example.com", "password": "s3cret"})
-    resp = client.post("/auth/token", data={"username": "alice@example.com", "password": "s3cret"})
+    client.post(
+        "/auth/register", json={"email": "alice@example.com", "password": "s3cret"}
+    )
+    resp = client.post(
+        "/auth/token", data={"username": "alice@example.com", "password": "s3cret"}
+    )
     token = resp.json().get("access_token")
     headers = {"Authorization": f"Bearer {token}"}
 
@@ -116,7 +120,9 @@ def test_update_and_delete_project():
         "name": "Updated Project",
         "description": "updated desc",
     }
-    resp = client.put(f"/admin/project/{project_id}", json=update_payload, headers=headers)
+    resp = client.put(
+        f"/admin/project/{project_id}", json=update_payload, headers=headers
+    )
     assert resp.status_code == 200
     assert resp.json()["id"] == project_id
 
