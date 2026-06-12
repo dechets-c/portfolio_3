@@ -6,21 +6,7 @@ from app.db import Base
 class Certification(Base):
     __tablename__ = "certifications"
 
-    id_certification = Column(Integer, index=True, primary_key=True)
+    id = Column(Integer, primary_key=True, index=True)
     nom = Column(String)
     recu_par = Column(String)
     date_obtention = Column(Date)
-
-
-from sqlalchemy import Column, Integer, String, Date
-
-from app.db import Base
-
-
-class Competence(Base):
-    __tablename__ = "certifications"
-
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String)
-    orga_distribution = Column(String)
-    date_obtentions = Column(Date)

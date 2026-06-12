@@ -72,6 +72,8 @@ const adminEndpoints = {
   outil: '/admin/create_outil',
   loisir: '/admin/create_loisir',
   langage: '/admin/create_langage',
+  experience: '/admin/create_experience',
+  certification: '/admin/create_certification',
 }
 
 const createAdminRecord = async (resource, payload, token) => {
@@ -85,9 +87,21 @@ const createAdminRecord = async (resource, payload, token) => {
 }
 
 const updateAdminRecord = async (resource, id, payload, token) => {
-  const endpoint = `/admin/update/${resource}/${id}`
+  const response = await fetch(`${API_BASE_URL}/admin/${resource}/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
+  })
 
-  return postJson(endpoint, payload, token)
+  if (!response.ok) {
+    const errorText = await response.text()
+    throw new Error(errorText || `Request failed for ${resource}/${id} with status ${response.status}`)
+  }
+
+  return response.json()
 }
 
 const deleteAdminRecord = async (resource, id, token) => {
@@ -114,6 +128,8 @@ const adminListEndpoints = {
   outil: '/admin/outils',
   loisir: '/admin/loisirs',
   langage: '/admin/langages',
+  experience: '/admin/experiences',
+  certification: '/admin/certifications',
 }
 
 const loadAdminResources = async (token) => {

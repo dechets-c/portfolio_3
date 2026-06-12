@@ -26,6 +26,21 @@ from fastapi import HTTPException, status
 
 logger = logging.getLogger(__name__)
 
+
+def _to_db(data) -> dict:
+    """Convertit un schéma Pydantic en dict compatible SQLAlchemy.
+    HttpUrl et PhoneNumber → str, datetime/date restent tels quels."""
+    from datetime import datetime, date as _date
+
+    result = {}
+    for k, v in data.model_dump().items():
+        if isinstance(v, (str, int, float, bool, type(None), datetime, _date)):
+            result[k] = v
+        else:
+            result[k] = str(v)
+    return result
+
+
 router = APIRouter(
     prefix="/admin", tags=["admin"], dependencies=[Depends(get_current_user)]
 )
@@ -39,6 +54,8 @@ from app.schemas.update_schemas import (
     UpdateProfil,
     UpdateLoisir,
     UpdateLangage,
+    UpdateExperience,
+    UpdateCertification,
 )
 
 allowed_models = {
@@ -49,13 +66,15 @@ allowed_models = {
     "profile": (models.Profile, UpdateProfil),
     "loisir": (models.Loisir, UpdateLoisir),
     "langage": (models.Langage, UpdateLangage),
+    "experience": (models.Experience, UpdateExperience),
+    "certification": (models.Certification, UpdateCertification),
 }
 
 
 @router.post("/create_project")
 def create_project(data: ProjectCreate, db: Session = Depends(get_db)):
     logger.info(f"Creating project: {data.name}")
-    new_project = models.Project(**data.model_dump())
+    new_project = models.Project(**_to_db(data))
     db.add(new_project)
     db.commit()
     db.refresh(new_project)
@@ -81,7 +100,7 @@ def get_project(item_id: int, db: Session = Depends(get_db)):
 
 @router.post("/create_competence")
 def create_competence(data: CompetenceCreate, db: Session = Depends(get_db)):
-    new_comp = models.Competence(**data.model_dump())
+    new_comp = models.Competence(**_to_db(data))
     db.add(new_comp)
     db.commit()
     db.refresh(new_comp)
@@ -109,7 +128,7 @@ def get_competence(item_id: int, db: Session = Depends(get_db)):
 
 @router.post("/create_formation")
 def create_formation(data: FormationCreate, db: Session = Depends(get_db)):
-    new_form = models.Formation(**data.model_dump())
+    new_form = models.Formation(**_to_db(data))
     db.add(new_form)
     db.commit()
     db.refresh(new_form)
@@ -137,7 +156,7 @@ def get_formation(item_id: int, db: Session = Depends(get_db)):
 
 @router.post("/create_outil")
 def create_outil(data: OutilCreate, db: Session = Depends(get_db)):
-    new_outil = models.Outil(**data.model_dump())
+    new_outil = models.Outil(**_to_db(data))
     db.add(new_outil)
     db.commit()
     db.refresh(new_outil)
@@ -163,7 +182,7 @@ def get_outil(item_id: int, db: Session = Depends(get_db)):
 
 @router.post("/create_profile")
 def create_profile(data: ProfilCreate, db: Session = Depends(get_db)):
-    new_prof = models.Profile(**data.model_dump())
+    new_prof = models.Profile(**_to_db(data))
     db.add(new_prof)
     db.commit()
     db.refresh(new_prof)
@@ -189,7 +208,7 @@ def get_profile(item_id: int, db: Session = Depends(get_db)):
 
 @router.post("/create_loisir")
 def create_loisir(data: LoisirCreate, db: Session = Depends(get_db)):
-    new_loisir = models.Loisir(**data.model_dump())
+    new_loisir = models.Loisir(**_to_db(data))
     db.add(new_loisir)
     db.commit()
     db.refresh(new_loisir)
@@ -215,7 +234,7 @@ def get_loisir(item_id: int, db: Session = Depends(get_db)):
 
 @router.post("/create_langage")
 def create_langage(data: LangageCreate, db: Session = Depends(get_db)):
-    new_lang = models.Langage(**data.model_dump())
+    new_lang = models.Langage(**_to_db(data))
     db.add(new_lang)
     db.commit()
     db.refresh(new_lang)
@@ -432,4 +451,84 @@ def update_langage(item_id: int, data: UpdateLangage, db: Session = Depends(get_
     db.commit()
     db.refresh(obj)
     logger.info(f"Langage with id {item_id} updated successfully")
+    return {"message": "Updated", "id": item_id}
+
+
+@router.post("/create_experience")
+def create_experience(data: ExperienceCreate, db: Session = Depends(get_db)):
+    logger.info(f"Creating experience: {data.entreprise}")
+    new_exp = models.Experience(**_to_db(data))
+    db.add(new_exp)
+    db.commit()
+    db.refresh(new_exp)
+    logger.info(f"Experience created successfully with id: {new_exp.id}")
+    return {"message": "Expérience insérée avec succès", "id": new_exp.id}
+
+
+@router.get("/experiences")
+def list_experiences(db: Session = Depends(get_db)):
+    return db.query(models.Experience).all()
+
+
+@router.get("/experience/{item_id}")
+def get_experience(item_id: int, db: Session = Depends(get_db)):
+    exp = db.query(models.Experience).filter(models.Experience.id == item_id).first()
+    if not exp:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Item not found")
+    return exp
+
+
+@router.put("/experience/{item_id}")
+def update_experience(item_id: int, data: UpdateExperience, db: Session = Depends(get_db)):
+    logger.info(f"Updating experience with id: {item_id}")
+    obj = db.query(models.Experience).filter(models.Experience.id == item_id).first()
+    if not obj:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Item not found")
+    for key, value in data.model_dump(exclude_none=True).items():
+        if hasattr(obj, key):
+            setattr(obj, key, value)
+    db.add(obj)
+    db.commit()
+    db.refresh(obj)
+    logger.info(f"Experience with id {item_id} updated successfully")
+    return {"message": "Updated", "id": item_id}
+
+
+@router.post("/create_certification")
+def create_certification(data: CertificationCreate, db: Session = Depends(get_db)):
+    logger.info(f"Creating certification: {data.nom}")
+    new_cert = models.Certification(**_to_db(data))
+    db.add(new_cert)
+    db.commit()
+    db.refresh(new_cert)
+    logger.info(f"Certification created successfully with id: {new_cert.id}")
+    return {"message": "Certification insérée avec succès", "id": new_cert.id}
+
+
+@router.get("/certifications")
+def list_certifications(db: Session = Depends(get_db)):
+    return db.query(models.Certification).all()
+
+
+@router.get("/certification/{item_id}")
+def get_certification(item_id: int, db: Session = Depends(get_db)):
+    cert = db.query(models.Certification).filter(models.Certification.id == item_id).first()
+    if not cert:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Item not found")
+    return cert
+
+
+@router.put("/certification/{item_id}")
+def update_certification(item_id: int, data: UpdateCertification, db: Session = Depends(get_db)):
+    logger.info(f"Updating certification with id: {item_id}")
+    obj = db.query(models.Certification).filter(models.Certification.id == item_id).first()
+    if not obj:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Item not found")
+    for key, value in data.model_dump(exclude_none=True).items():
+        if hasattr(obj, key):
+            setattr(obj, key, value)
+    db.add(obj)
+    db.commit()
+    db.refresh(obj)
+    logger.info(f"Certification with id {item_id} updated successfully")
     return {"message": "Updated", "id": item_id}

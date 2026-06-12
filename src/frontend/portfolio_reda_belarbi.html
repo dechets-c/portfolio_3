@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="page-title">Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --ink: #0d0d0d;
+    --ink-light: #3a3a3a;
+    --ink-muted: #8a8a8a;
+    --page: #f5f2ec;
+    --page2: #ede9e1;
+    --accent: #e8521a;
+    --accent2: #1a4de8;
+    --white: #ffffff;
+    --border: rgba(13,13,13,0.1);
+    --sans: 'DM Sans', sans-serif;
+    --display: 'Syne', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--page);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 3rem;
+    background: rgba(245,242,236,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 1.15rem;
+    letter-spacing: -0.5px;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--ink-muted);
+    text-decoration: none;
+    letter-spacing: 0.3px;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta {
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 0.55rem 1.25rem;
+    background: var(--ink);
+    color: var(--page);
+    border-radius: 100px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .nav-cta:hover { background: var(--accent); transform: scale(1.02); }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+    overflow: hidden;
+  }
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 5rem 3rem 5rem 4rem;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.75rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 32px; height: 2px;
+    background: var(--accent);
+    display: block;
+  }
+  .hero-name {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(3.5rem, 6vw, 5.5rem);
+    line-height: 0.95;
+    letter-spacing: -2px;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+  .hero-name .accent { color: var(--accent); }
+  .hero-desc {
+    font-size: 1rem;
+    font-weight: 300;
+    color: var(--ink-light);
+    max-width: 420px;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+  .hero-actions { display: flex; gap: 1rem; align-items: center; }
+  .btn-primary {
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.85rem 2rem;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,82,26,0.35); }
+  .btn-secondary {
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.85rem 2rem;
+    border: 1.5px solid var(--border);
+    color: var(--ink);
+    border-radius: 100px;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--ink); background: var(--page2); }
+
+  .hero-right {
+    background: var(--ink);
+    position: relative;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 3rem;
+    overflow: hidden;
+  }
+  .hero-bg-pattern {
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 40px, #fff 40px, #fff 41px),
+      repeating-linear-gradient(90deg, transparent, transparent 40px, #fff 40px, #fff 41px);
+  }
+  .hero-accent-circle {
+    position: absolute;
+    width: 380px; height: 380px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.12;
+    top: -80px; right: -80px;
+  }
+  .hero-accent-circle2 {
+    position: absolute;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: var(--accent2);
+    opacity: 0.15;
+    bottom: 60px; left: -40px;
+  }
+  .hero-stats {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .stat {
+    padding: 1.75rem;
+    background: rgba(255,255,255,0.03);
+    transition: background 0.2s;
+  }
+  .stat:hover { background: rgba(255,255,255,0.06); }
+  .stat-num {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 2.2rem;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+  .stat-num span { color: var(--accent); }
+  .stat-label {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 0.5px;
+  }
+  .hero-dispo {
+    position: absolute;
+    top: 2rem; right: 2rem;
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .dispo-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #4ade80;
+    box-shadow: 0 0 0 3px rgba(74,222,128,0.25);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(74,222,128,0.25); }
+    50% { box-shadow: 0 0 0 6px rgba(74,222,128,0.1); }
+  }
+
+  /* ─── SECTIONS COMMON ─── */
+  section { padding: 6rem 4rem; }
+  .section-label {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+    color: var(--ink);
+    margin-bottom: 3rem;
+  }
+
+  /* ─── ABOUT ─── */
+  .about { background: var(--white); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 5rem;
+    align-items: start;
+    max-width: 1200px;
+  }
+  .about-left { position: sticky; top: 6rem; }
+  .about-avatar {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: var(--page2);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+  .about-avatar-initials {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 5rem;
+    color: var(--ink);
+    opacity: 0.12;
+    letter-spacing: -3px;
+  }
+  .about-avatar-bar {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 1.5rem;
+    background: linear-gradient(to top, rgba(13,13,13,0.6), transparent);
+  }
+  .about-avatar-name {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #fff;
+  }
+  .about-avatar-role {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.65);
+  }
+  .about-contact-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .contact-row {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.9rem 1.25rem;
+    font-size: 0.85rem;
+    color: var(--ink-light);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  .contact-row:last-child { border-bottom: none; }
+  .contact-row:hover { background: var(--page); }
+  .contact-icon { font-size: 0.9rem; color: var(--accent); width: 18px; }
+  .about-right {}
+  .about-lead {
+    font-size: 1.25rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--ink);
+    margin-bottom: 2rem;
+  }
+  .lang-row {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+  }
+  .lang-chip {
+    display: flex; flex-direction: column;
+    padding: 0.75rem 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    min-width: 120px;
+  }
+  .lang-name {
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: var(--ink);
+  }
+  .lang-level {
+    font-size: 0.75rem;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* ─── EXPERIENCE ─── */
+  .experience { background: var(--page); }
+  .exp-timeline { max-width: 900px; }
+  .exp-item {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 2.5rem;
+    padding-bottom: 3.5rem;
+    position: relative;
+  }
+  .exp-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 140px;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: var(--border);
+    margin-left: 1.25rem;
+    transform: translateX(-50%);
+  }
+  .exp-meta { padding-top: 0.25rem; }
+  .exp-period {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--ink-muted);
+    letter-spacing: 0.3px;
+    line-height: 1.5;
+  }
+  .exp-type {
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    background: rgba(232,82,26,0.1);
+    color: var(--accent);
+  }
+  .exp-body {
+    padding: 1.75rem 2rem;
+    background: var(--white);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    position: relative;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .exp-body:hover {
+    border-color: rgba(232,82,26,0.2);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  }
+  .exp-body::before {
+    content: '';
+    position: absolute;
+    left: -1px; top: 1.5rem;
+    width: 3px; height: 32px;
+    background: var(--accent);
+    border-radius: 0 2px 2px 0;
+  }
+  .exp-company {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: -0.5px;
+    color: var(--ink);
+    margin-bottom: 0.2rem;
+  }
+  .exp-role {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--accent);
+    margin-bottom: 1.25rem;
+  }
+  .exp-desc {
+    font-size: 0.9rem;
+    color: var(--ink-light);
+    line-height: 1.75;
+  }
+
+  /* ─── SKILLS ─── */
+  .skills { background: var(--ink); color: var(--page); }
+  .skills .section-title { color: #fff; }
+  .skills-intro {
+    font-size: 1rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.5);
+    max-width: 480px;
+    margin-bottom: 4rem;
+    line-height: 1.7;
+    margin-top: -1.5rem;
+  }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .skill-cat {
+    padding: 2rem;
+    background: var(--ink);
+    transition: background 0.2s;
+  }
+  .skill-cat:hover { background: #131313; }
+  .skill-cat-header {
+    display: flex; align-items: center; gap: 0.75rem;
+    margin-bottom: 1.75rem;
+  }
+  .skill-cat-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: rgba(232,82,26,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    color: var(--accent);
+  }
+  .skill-cat-title {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.3px;
+    color: #fff;
+  }
+  .skill-pills { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+  .skill-pill {
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.35rem 0.85rem;
+    border-radius: 100px;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.65);
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+  }
+  .skill-pill:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(232,82,26,0.08);
+  }
+
+  /* ─── PROJECTS ─── */
+  .projects { background: var(--page2); }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+  .proj-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .proj-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .proj-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.1); }
+  .proj-card:hover::before { transform: scaleX(1); }
+  .proj-num {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 3.5rem;
+    line-height: 1;
+    color: var(--page2);
+    margin-bottom: -0.5rem;
+  }
+  .proj-title {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: -0.3px;
+    color: var(--ink);
+    margin-bottom: 0.75rem;
+  }
+  .proj-desc {
+    font-size: 0.88rem;
+    font-weight: 300;
+    color: var(--ink-light);
+    line-height: 1.75;
+    margin-bottom: 1.5rem;
+  }
+  .proj-link {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .proj-link:hover { text-decoration: underline; }
+
+  /* ─── FORMATION ─── */
+  .formation { background: var(--white); }
+  .edu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    max-width: 1100px;
+  }
+  .edu-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.75rem 2rem;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative;
+  }
+  .edu-card:hover { border-color: rgba(232,82,26,0.3); transform: translateY(-2px); }
+  .edu-year {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+  .edu-degree {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: -0.3px;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+    line-height: 1.3;
+  }
+  .edu-school {
+    font-size: 0.83rem;
+    color: var(--ink-muted);
+    margin-bottom: 0.75rem;
+  }
+  .edu-mention {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0.25rem 0.75rem;
+    background: rgba(232,82,26,0.08);
+    color: var(--accent);
+    border-radius: 100px;
+    display: inline-block;
+  }
+
+  /* ─── FOOTER / CTA ─── */
+  .cta-section {
+    background: var(--accent);
+    padding: 6rem 4rem;
+    text-align: center;
+  }
+  .cta-section .section-label { color: rgba(255,255,255,0.6); justify-content: center; }
+  .cta-title {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    letter-spacing: -2px;
+    color: #fff;
+    margin-bottom: 1rem;
+    line-height: 1;
+  }
+  .cta-sub {
+    font-size: 1rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 2.5rem;
+  }
+  .cta-actions { display: flex; justify-content: center; gap: 1rem; }
+  .cta-btn {
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.9rem 2.25rem;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .cta-btn.primary {
+    background: #fff;
+    color: var(--accent);
+  }
+  .cta-btn.secondary {
+    background: transparent;
+    color: #fff;
+    border: 1.5px solid rgba(255,255,255,0.5);
+  }
+  .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+
+  footer {
+    background: var(--ink);
+    padding: 2rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .footer-logo {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--page);
+    letter-spacing: -0.5px;
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-links { display: flex; gap: 2rem; }
+  .footer-links a {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.35);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--accent); }
+  .footer-copy {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.25);
+  }
+
+  /* ─── EMPTY STATE ─── */
+  .empty-state {
+    font-size: 0.9rem;
+    color: var(--ink-muted);
+    font-style: italic;
+    padding: 1rem 0;
+  }
+  .skills .empty-state { color: rgba(255,255,255,0.35); }
+
+  /* ─── ANIMATIONS ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { min-height: 380px; }
+    .hero-left { padding: 3rem 1.5rem; }
+    section { padding: 4rem 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; }
+    .about-left { position: static; }
+    .exp-item { grid-template-columns: 1fr; gap: 1rem; }
+    .exp-item::after { display: none; }
+    footer { padding: 1.5rem; flex-direction: column; text-align: center; }
+    .cta-section { padding: 4rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo" id="nav-logo"><span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">Profil</a></li>
+    <li><a href="#experience">Expérience</a></li>
+    <li><a href="#skills">Compétences</a></li>
+    <li><a href="#projects">Projets</a></li>
+    <li><a href="#formation">Formation</a></li>
+  </ul>
+  <a href="#" class="nav-cta" id="nav-contact">Me contacter</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Disponible · Septembre 2026</div>
+    <h1 class="hero-name">
+      <span id="hero-prenom">—</span><br>
+      <span class="accent" id="hero-nom">—</span>
+    </h1>
+    <p class="hero-desc" id="hero-bio"></p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary" id="hero-email-btn">Me contacter</a>
+      <a href="#experience" class="btn-secondary">Voir mon parcours</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-bg-pattern"></div>
+    <div class="hero-accent-circle"></div>
+    <div class="hero-accent-circle2"></div>
+    <div class="hero-dispo">
+      <div class="dispo-dot"></div>
+      Disponible · Sept. 2026
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num" id="stat-exp">—</div>
+        <div class="stat-label">Expériences</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="stat-comp">—</div>
+        <div class="stat-label">Compétences</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="stat-proj">—</div>
+        <div class="stat-label">Projets</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="stat-form">—</div>
+        <div class="stat-label">Formations</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="section-label">01 — Profil</div>
+  <div class="about-grid">
+    <div class="about-left reveal">
+      <div class="about-avatar">
+        <div class="about-avatar-initials" id="avatar-initials">—</div>
+        <div class="about-avatar-bar">
+          <div class="about-avatar-name" id="about-fullname">—</div>
+        </div>
+      </div>
+      <div class="about-contact-card" id="contact-card"></div>
+    </div>
+    <div class="about-right">
+      <div class="section-title">Qui suis-je<span style="color:var(--accent)">.</span></div>
+      <p class="about-lead reveal" id="about-bio-lead"></p>
+
+      <h3 style="font-family:var(--display);font-weight:700;font-size:0.9rem;letter-spacing:-0.2px;color:var(--ink);margin-bottom:0.75rem;margin-top:2rem;">Langues</h3>
+      <div class="lang-row reveal reveal-delay-1" id="lang-row"></div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="experience" id="experience">
+  <div class="section-label">02 — Expérience</div>
+  <div class="section-title">Parcours<span style="color:var(--accent)">.</span></div>
+  <div class="exp-timeline" id="exp-timeline"></div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills" id="skills">
+  <div class="section-label">03 — Compétences</div>
+  <div class="section-title">Stack Technique<span style="color:var(--accent)">.</span></div>
+  <p class="skills-intro">Des outils ETL au Cloud, en passant par la visualisation et l'automatisation — une palette complète orientée data.</p>
+  <div class="skills-grid" id="skills-grid"></div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects" id="projects">
+  <div class="section-label">04 — Projets</div>
+  <div class="section-title">Réalisations<span style="color:var(--accent)">.</span></div>
+  <div class="projects-grid" id="projects-grid"></div>
+</section>
+
+<!-- FORMATION -->
+<section class="formation" id="formation">
+  <div class="section-label">05 — Formation</div>
+  <div class="section-title">Diplômes<span style="color:var(--accent)">.</span></div>
+  <div class="edu-grid" id="edu-grid"></div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="section-label">06 — Contact</div>
+  <h2 class="cta-title">Travaillons ensemble<span style="color:rgba(255,255,255,0.4)">.</span></h2>
+  <p class="cta-sub">Disponible pour une alternance — région lilloise.</p>
+  <div class="cta-actions">
+    <a href="#" class="cta-btn primary" id="cta-email">Envoyer un email</a>
+    <a href="#" class="cta-btn secondary" id="cta-phone">Nous appeler</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo" id="footer-logo"><span>.</span></div>
+  <div class="footer-links">
+    <a href="#top">Haut de page</a>
+    <a href="#experience">Expérience</a>
+    <a href="#skills">Compétences</a>
+    <a href="#" id="footer-email">Contact</a>
+  </div>
+  <div class="footer-copy" id="footer-copy">© 2026</div>
+</footer>
+
+<script>
+  const API = 'http://localhost:8000';
+
+  function fmtDate(str) {
+    if (!str) return 'Présent';
+    const d = new Date(str);
+    return d.toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
+  }
+
+  function delayClass(i) {
+    return i === 0 ? '' : ` reveal-delay-${Math.min(i, 3)}`;
+  }
+
+  function reobserve() {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal:not(.observed)').forEach(el => {
+      el.classList.add('observed');
+      obs.observe(el);
+    });
+  }
+
+  function renderProfile(p) {
+    if (!p) return;
+    const prenom = p.prenom || '';
+    const nom = p.nom || '';
+    const email = p.email || '';
+    const initials = [prenom, nom].filter(Boolean).map(s => s[0].toUpperCase()).join('');
+
+    // Page title
+    if (prenom || nom) document.getElementById('page-title').textContent = `${prenom} ${nom} — Portfolio`;
+
+    // Nav logo: "P.Nom"
+    const navLogo = document.getElementById('nav-logo');
+    navLogo.innerHTML = `${prenom ? prenom[0] : ''}<span>.</span>${nom}`;
+
+    // Nav / hero CTA
+    if (email) {
+      document.getElementById('nav-contact').href = `mailto:${email}`;
+      document.getElementById('hero-email-btn').href = `mailto:${email}`;
+      document.getElementById('cta-email').href = `mailto:${email}`;
+      document.getElementById('footer-email').href = `mailto:${email}`;
+    }
+
+    // Hero
+    document.getElementById('hero-prenom').textContent = prenom || '—';
+    document.getElementById('hero-nom').textContent = nom || '—';
+    document.getElementById('hero-bio').textContent = p.bio || '';
+
+    // About avatar
+    document.getElementById('avatar-initials').textContent = initials || '—';
+    document.getElementById('about-fullname').textContent = [prenom, nom].filter(Boolean).join(' ') || '—';
+
+    // About bio
+    document.getElementById('about-bio-lead').textContent = p.bio || '';
+
+    // Contact card
+    const rows = [
+      { icon: '✉', value: email, href: `mailto:${email}` },
+      { icon: '📱', value: p.telephone || '', href: p.telephone ? `tel:${p.telephone.replace(/\s/g, '')}` : null },
+      { icon: '📍', value: p.adresse || '' },
+      { icon: '🔗', value: p.linkedin || '', href: p.linkedin },
+      { icon: '🐙', value: p.github || '', href: p.github },
+    ].filter(r => r.value);
+
+    document.getElementById('contact-card').innerHTML = rows.map(r => `
+      <div class="contact-row">
+        <span class="contact-icon">${r.icon}</span>
+        ${r.href ? `<a href="${r.href}" style="color:inherit;text-decoration:none;word-break:break-all">${r.value}</a>` : `<span>${r.value}</span>`}
+      </div>
+    `).join('');
+
+    // Phone CTA
+    if (p.telephone) {
+      document.getElementById('cta-phone').href = `tel:${p.telephone.replace(/\s/g, '')}`;
+      document.getElementById('cta-phone').textContent = p.telephone;
+    }
+
+    // Footer logo
+    const footerLogo = document.getElementById('footer-logo');
+    footerLogo.innerHTML = `${prenom ? prenom[0] : ''}<span>.</span>${nom}`;
+
+    // Footer copy
+    document.getElementById('footer-copy').textContent = `© ${new Date().getFullYear()} ${[prenom, nom].filter(Boolean).join(' ')}`;
+  }
+
+  function renderStats(experiences, competences, projects, formations) {
+    document.getElementById('stat-exp').textContent = experiences.length;
+    document.getElementById('stat-comp').textContent = competences.length;
+    document.getElementById('stat-proj').textContent = projects.length;
+    document.getElementById('stat-form').textContent = formations.length;
+  }
+
+  function renderLangages(langages) {
+    const container = document.getElementById('lang-row');
+    if (!langages.length) {
+      container.innerHTML = '<p class="empty-state">Aucune langue renseignée.</p>';
+      return;
+    }
+    container.innerHTML = langages.map(l => `
+      <div class="lang-chip">
+        <span class="lang-name">${l.name || ''}</span>
+        <span class="lang-level">${l.niveau || ''}</span>
+      </div>
+    `).join('');
+  }
+
+  function renderExperiences(exps) {
+    const container = document.getElementById('exp-timeline');
+    if (!exps.length) {
+      container.innerHTML = '<p class="empty-state">Aucune expérience renseignée.</p>';
+      return;
+    }
+    container.innerHTML = exps.map((e, i) => `
+      <div class="exp-item reveal${delayClass(i)}">
+        <div class="exp-meta">
+          <div class="exp-period">${fmtDate(e.date_debut)}<br>${fmtDate(e.date_fin)}</div>
+          ${e.type_contrat ? `<span class="exp-type">${e.type_contrat}</span>` : ''}
+        </div>
+        <div class="exp-body">
+          <div class="exp-company">${e.entreprise || ''}</div>
+          ${e.poste ? `<div class="exp-role">${e.poste}</div>` : ''}
+          ${e.description_mission ? `<p class="exp-desc">${e.description_mission}</p>` : ''}
+        </div>
+      </div>
+    `).join('');
+    reobserve();
+  }
+
+  function renderCompetences(comps) {
+    const container = document.getElementById('skills-grid');
+    if (!comps.length) {
+      container.innerHTML = '<p class="empty-state">Aucune compétence renseignée.</p>';
+      return;
+    }
+    const categories = {};
+    comps.forEach(c => {
+      const cat = c.categorie_comp || 'Autres';
+      if (!categories[cat]) categories[cat] = [];
+      categories[cat].push(c.name);
+    });
+    container.innerHTML = Object.entries(categories).map(([cat, skills], i) => `
+      <div class="skill-cat reveal${delayClass(i)}">
+        <div class="skill-cat-header">
+          <div class="skill-cat-icon">⚙</div>
+          <div class="skill-cat-title">${cat}</div>
+        </div>
+        <div class="skill-pills">
+          ${skills.map(s => `<span class="skill-pill">${s}</span>`).join('')}
+        </div>
+      </div>
+    `).join('');
+    reobserve();
+  }
+
+  function renderProjects(projs) {
+    const container = document.getElementById('projects-grid');
+    if (!projs.length) {
+      container.innerHTML = '<p class="empty-state">Aucun projet renseigné.</p>';
+      return;
+    }
+    container.innerHTML = projs.map((p, i) => `
+      <div class="proj-card reveal${delayClass(i)}">
+        <div class="proj-num">${String(i + 1).padStart(2, '0')}</div>
+        <div class="proj-title">${p.name || ''}</div>
+        <p class="proj-desc">${p.description || ''}</p>
+        ${p.url ? `<a href="${p.url}" target="_blank" rel="noopener" class="proj-link">Voir le projet →</a>` : ''}
+      </div>
+    `).join('');
+    reobserve();
+  }
+
+  function renderFormations(formations) {
+    const container = document.getElementById('edu-grid');
+    if (!formations.length) {
+      container.innerHTML = '<p class="empty-state">Aucune formation renseignée.</p>';
+      return;
+    }
+    container.innerHTML = formations.map((f, i) => `
+      <div class="edu-card reveal${delayClass(i)}">
+        <div class="edu-year">${fmtDate(f.date_debut)}${f.date_fin ? ' — ' + fmtDate(f.date_fin) : ' — Présent'}</div>
+        <div class="edu-degree">${f.nom_formation || ''}</div>
+        <div class="edu-school">${f.nom_ecole || ''}</div>
+        ${f.niveau ? `<span class="edu-mention">${f.niveau}</span>` : ''}
+      </div>
+    `).join('');
+    reobserve();
+  }
+
+  async function load() {
+    const [profiles, experiences, competences, projects, formations, langages] = await Promise.all([
+      fetch(`${API}/data/profiles`).then(r => r.json()).catch(() => []),
+      fetch(`${API}/data/experiences`).then(r => r.json()).catch(() => []),
+      fetch(`${API}/data/competences`).then(r => r.json()).catch(() => []),
+      fetch(`${API}/data/projects`).then(r => r.json()).catch(() => []),
+      fetch(`${API}/data/formations`).then(r => r.json()).catch(() => []),
+      fetch(`${API}/data/langages`).then(r => r.json()).catch(() => []),
+    ]);
+
+    renderProfile(profiles[0]);
+    renderStats(experiences, competences, projects, formations);
+    renderLangages(langages);
+    renderExperiences(experiences);
+    renderCompetences(competences);
+    renderProjects(projects);
+    renderFormations(formations);
+
+    // Initial reveal for static elements
+    reobserve();
+  }
+
+  // Initial observe for elements already in the DOM (about-left, etc.)
+  reobserve();
+  load();
+</script>
+</body>
+</html>

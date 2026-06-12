@@ -133,6 +133,33 @@ const adminConfigs = [
       },
     ],
   },
+  {
+    key: 'experience',
+    label: 'Expérience',
+    fields: [
+      { name: 'entreprise', label: 'Entreprise', type: 'text', required: true },
+      { name: 'poste', label: 'Poste', type: 'text', required: true },
+      { name: 'description_mission', label: 'Mission', type: 'textarea', required: true },
+      {
+        name: 'type_contrat',
+        label: 'Type de contrat',
+        type: 'select',
+        required: true,
+        options: ['Alternance', 'CDI', 'CDD', 'Stage'],
+      },
+      { name: 'date_debut', label: 'Date de début', type: 'datetime-local', required: true },
+      { name: 'date_fin', label: 'Date de fin', type: 'datetime-local', required: false },
+    ],
+  },
+  {
+    key: 'certification',
+    label: 'Certification',
+    fields: [
+      { name: 'nom', label: 'Nom', type: 'text', required: true },
+      { name: 'recu_par', label: 'Délivré par', type: 'text', required: true },
+      { name: 'date_obtention', label: "Date d'obtention", type: 'datetime-local', required: true },
+    ],
+  },
 ]
 
 const createEmptyValues = (configs) =>

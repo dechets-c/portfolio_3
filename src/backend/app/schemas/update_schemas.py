@@ -7,6 +7,7 @@ from app.schemas.langage import _LangageNiv
 from app.schemas.formation import _NiveauFormation, _Secteur
 from app.schemas.competence import _CategorieComp
 from app.schemas.project import _ProjectRole
+from app.schemas.experience import _TypeContrat
 
 
 class UpdateProject(BaseModel):
@@ -62,3 +63,18 @@ class UpdateLoisir(BaseModel):
 class UpdateLangage(BaseModel):
     name: Optional[str] = None
     niveau: Optional[_LangageNiv] = None
+
+
+class UpdateExperience(BaseModel):
+    entreprise: Optional[str] = None
+    poste: Optional[str] = None
+    description_mission: Optional[str] = None
+    type_contrat: Optional[_TypeContrat] = None
+    date_debut: Optional[datetime] = None
+    date_fin: Optional[datetime] = None
+
+
+class UpdateCertification(BaseModel):
+    nom: Optional[str] = None
+    recu_par: Optional[str] = None
+    date_obtention: Optional[datetime] = None

@@ -15,3 +15,6 @@ wheels/
 
 # test db
 *.db
+
+# Portable tooling
+.tools/

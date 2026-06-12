@@ -165,3 +165,47 @@ def get_langage(item_id: int, db: Session = Depends(get_db)):
         )
     logger.debug(f"Retrieved langage: {item_id}")
     return langage
+
+
+# Experiences
+@router.get("/experiences")
+def list_experiences(db: Session = Depends(get_db)):
+    logger.debug("Fetching all experiences")
+    experiences = db.query(models.Experience).all()
+    logger.debug(f"Retrieved {len(experiences)} experiences")
+    return experiences
+
+
+@router.get("/experience/{item_id}")
+def get_experience(item_id: int, db: Session = Depends(get_db)):
+    logger.debug(f"Fetching experience with id: {item_id}")
+    experience = db.query(models.Experience).filter(models.Experience.id == item_id).first()
+    if not experience:
+        logger.warning(f"Experience with id {item_id} not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Item not found"
+        )
+    logger.debug(f"Retrieved experience: {item_id}")
+    return experience
+
+
+# Certifications
+@router.get("/certifications")
+def list_certifications(db: Session = Depends(get_db)):
+    logger.debug("Fetching all certifications")
+    certifications = db.query(models.Certification).all()
+    logger.debug(f"Retrieved {len(certifications)} certifications")
+    return certifications
+
+
+@router.get("/certification/{item_id}")
+def get_certification(item_id: int, db: Session = Depends(get_db)):
+    logger.debug(f"Fetching certification with id: {item_id}")
+    certification = db.query(models.Certification).filter(models.Certification.id == item_id).first()
+    if not certification:
+        logger.warning(f"Certification with id {item_id} not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Item not found"
+        )
+    logger.debug(f"Retrieved certification: {item_id}")
+    return certification
