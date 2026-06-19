@@ -1,7 +1,7 @@
 from typing import Optional
 from datetime import datetime, date
 
-from pydantic import BaseModel, HttpUrl, EmailStr
+from pydantic import BaseModel, HttpUrl, EmailStr, field_serializer
 from pydantic_extra_types.phone_numbers import PhoneNumber
 from app.schemas.langage import _LangageNiv
 from app.schemas.formation import _NiveauFormation, _Secteur
@@ -16,6 +16,10 @@ class UpdateProject(BaseModel):
     date_debut: Optional[date] = None
     date_fin: Optional[date] = None
     url: Optional[HttpUrl] = None
+
+    @field_serializer("url", when_used="unless-none")
+    def serialize_url(self, v):
+        return str(v) if v else None
 
 
 class UpdateCompetence(BaseModel):
@@ -40,6 +44,10 @@ class UpdateOutil(BaseModel):
     niveau: Optional[int] = None
     url_logo: Optional[HttpUrl] = None
 
+    @field_serializer("url_logo", when_used="unless-none")
+    def serialize_url_logo(self, v):
+        return str(v) if v else None
+
 
 class UpdateProfil(BaseModel):
     prenom: Optional[str] = None
@@ -52,6 +60,10 @@ class UpdateProfil(BaseModel):
     github: Optional[HttpUrl] = None
     photo: Optional[HttpUrl] = None
     bio: Optional[str] = None
+
+    @field_serializer("linkedin", "github", "photo", when_used="unless-none")
+    def serialize_urls(self, v):
+        return str(v) if v else None
 
 
 class UpdateLoisir(BaseModel):

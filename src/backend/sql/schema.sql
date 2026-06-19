@@ -42,6 +42,7 @@ CREATE INDEX IF NOT EXISTS ix_projects_id ON projects (id);
 CREATE TABLE IF NOT EXISTS competences (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name VARCHAR,
+    niveau INTEGER,
     categorie_comp VARCHAR,
     date_debut_comp DATE
 );

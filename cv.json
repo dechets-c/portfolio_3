@@ -1,0 +1,22 @@
+{
+  "profile": {
+    "prenom": "Quentin",
+    "nom": "",
+    "email": "quentindelrive@gmail.comFOR",
+    "telephone": "06.69.09.08.66",
+    "adresse": "",
+    "dn": "",
+    "linkedin": "",
+    "github": "",
+    "photo": "",
+    "bio": ""
+  },
+  "formation": {
+    "nom_formation": "COMPÉTENCESBUT Science des données (SD) | Depuis Septembre 2023",
+    "nom_ecole": "",
+    "niveau": "",
+    "secteur": "",
+    "date_debut": "",
+    "date_fin": ""
+  }
+}

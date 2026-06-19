@@ -65,6 +65,26 @@ main {
   margin-bottom: 1rem;
 }
 
+.skills__list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center; /* Aligne les badges au centre comme tes titres */
+  gap: 0.75rem;            /* Espace entre les badges */
+  margin-top: 1rem;
+}
+
+/* Le style d'un badge individuel (optionnel, mais propre) */
+.skill__badge {
+  background-color: var(--clr-bg-alt);
+  color: var(--clr-fg);
+  padding: 0.5em 1em;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  box-shadow: var(--shadow); /* Utilise l'ombre de ton thème */
+  font-weight: 500;
+}
+
 .contact__details {
   margin-top: 1rem;
   display: flex;

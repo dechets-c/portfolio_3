@@ -13,7 +13,7 @@ import Footer from './components/Footer/Footer'
 import { loadPortfolio } from './api'
 import './App.css'
 
-const ADMIN_HASH = (process.env.REACT_APP_ADMIN_HASH || 'b7a9f3c2').toLowerCase()
+const ADMIN_HASH = 'admin'
 
 const App = () => {
   const [{ themeName }] = useContext(ThemeContext)

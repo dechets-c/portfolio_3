@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import BaseModel, EmailStr, HttpUrl
+from pydantic import BaseModel, EmailStr, HttpUrl, field_serializer
 from pydantic_extra_types.phone_numbers import PhoneNumber
 
 
@@ -15,3 +15,7 @@ class ProfilCreate(BaseModel):
     github: HttpUrl
     photo: HttpUrl
     bio: str
+
+    @field_serializer("linkedin", "github", "photo", when_used="unless-none")
+    def serialize_urls(self, v):
+        return str(v) if v else None

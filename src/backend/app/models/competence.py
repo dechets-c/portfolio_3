@@ -8,5 +8,6 @@ class Competence(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String)
+    niveau = Column(Integer)
     categorie_comp = Column(String)
     date_debut_comp = Column(Date)

@@ -180,7 +180,7 @@ const normalizePortfolio = ({
 
   const about = {
     name: fullName || 'Portfolio',
-    role: primaryFormation?.niveau || 'Développeur web',
+    role: 'Data Engineer',
     picture: resolveAssetUrl(profile.photo),
     description:
       profile.bio ||
@@ -211,7 +211,7 @@ const normalizePortfolio = ({
     ),
     langages: langages.map((item) => buildLabel(item.name, item.niveau)),
     outils: outils.map((item) =>
-      buildLabel(item.name, item.categorie, item.niveau ? `${item.niveau}/10` : '')
+      buildLabel(item.name, item.categorie, item.niveau ? `${item.niveau}/5` : '')
     ),
   }
 
