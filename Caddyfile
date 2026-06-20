@@ -1,10 +1,20 @@
-play.dechet.ovh {
-    # 1. Le Backend : Dès que ça commence par /api, on envoie vers le conteneur backend
-    reverse_proxy /api/* backend:5000
+{
+    acme_ca https://acme.zerossl.com/v2/DV90
+    email q.delrive@dechet.ovh
+}
 
-    # 2. Le Frontend : Pour tout le reste, Caddy sert les fichiers statiques du volume du front
-    root * /usr/share/caddy/frontend
+play.dechet.ovh {
     encode gzip zstd
-    try_files {path} /index.html
-    file_server
+
+    # Blocs étanches : si c'est /api, on interdit l'accès au dossier frontend
+    # Au lieu de handle /api*, on utilise handle_path
+    handle_path /api* {
+        reverse_proxy backend:5000
+    }
+
+    handle {
+        root * /usr/share/caddy/frontend
+        try_files {path} /index.html
+        file_server
+    }
 }
