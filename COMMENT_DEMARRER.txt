@@ -1,0 +1,46 @@
+===========================================
+ COMMENT RELANCER LE PORTFOLIO
+===========================================
+
+OPTION RAPIDE
+-------------
+Double-clique sur : scripts\start.bat
+(Il lance automatiquement le backend ET le frontend.)
+
+
+OPTION MANUELLE
+----------------
+
+1) BACKEND (terminal PowerShell n°1) :
+   cd c:\projets\portfolio_3\src\backend
+   uv run uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
+
+2) FRONTEND (terminal PowerShell n°2) :
+   cd c:\projets\portfolio_3\src\frontend
+   npm start
+
+   Laisse les deux terminaux ouverts, ils doivent rester actifs.
+
+
+ACCES
+-----
+- Portfolio React (public)     : http://localhost:3000
+- Interface admin              : http://localhost:3000/#b7a9f3c2
+- API backend (doc Swagger)    : http://127.0.0.1:8000/docs
+- Portfolio HTML statique      : ouvrir directement le fichier
+                                  src\frontend\portfolio_reda_belarbi.html
+                                  dans le navigateur
+
+IMPORTANT : le fichier portfolio_reda_belarbi.html a besoin que le
+BACKEND (port 8000) ET le FRONTEND (port 3000) tournent en meme temps.
+- Le backend fournit les donnees (projets, experiences, etc.)
+- Le frontend heberge ta photo (localhost:3000/images/...)
+Sans les deux lances, la page s'affichera vide ou sans photo.
+
+
+IDENTIFIANTS ADMIN
+-------------------
+Email      : reda.bel59130@gmail.com
+Mot de passe : QxTJEzMSZoxtag#XN42q
+
+===========================================

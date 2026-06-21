@@ -396,13 +396,27 @@
     background: var(--accent);
     border-radius: 0 2px 2px 0;
   }
+  .exp-company-row {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-bottom: 0.2rem;
+  }
+  .exp-logo {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    object-fit: contain;
+    background: #fff;
+    border: 1px solid var(--border);
+    padding: 3px;
+  }
   .exp-company {
     font-family: var(--display);
     font-weight: 700;
     font-size: 1.2rem;
     letter-spacing: -0.5px;
     color: var(--ink);
-    margin-bottom: 0.2rem;
   }
   .exp-role {
     font-size: 0.88rem;
@@ -414,6 +428,26 @@
     font-size: 0.9rem;
     color: var(--ink-light);
     line-height: 1.75;
+  }
+
+  .bullet-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .bullet-list li {
+    position: relative;
+    padding-left: 1.1rem;
+  }
+  .bullet-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 600;
   }
 
   /* ─── SKILLS ─── */
@@ -757,6 +791,7 @@
   <div class="about-grid">
     <div class="about-left reveal">
       <div class="about-avatar">
+        <img id="avatar-img" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" />
         <div class="about-avatar-initials" id="avatar-initials">—</div>
         <div class="about-avatar-bar">
           <div class="about-avatar-name" id="about-fullname">—</div>
@@ -839,6 +874,30 @@
     return i === 0 ? '' : ` reveal-delay-${Math.min(i, 3)}`;
   }
 
+  const companyDomains = {
+    'dalkia': 'dalkia.fr',
+    'grdf': 'grdf.fr',
+    'decathlon': 'decathlon.fr',
+  };
+
+  function getCompanyDomain(name) {
+    const key = (name || '').toLowerCase();
+    const match = Object.keys(companyDomains).find(k => key.includes(k));
+    return match ? companyDomains[match] : null;
+  }
+
+  function toBullets(text) {
+    if (!text) return [];
+    const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+    const hasBulletLines = lines.length > 1 && lines.some(l => /^[-•]/.test(l));
+    const items = hasBulletLines
+      ? lines.map(l => l.replace(/^[-•]\s*/, ''))
+      : text.split(/\.\s+/).map(s => s.trim());
+    return items
+      .map(s => s.replace(/\.$/, ''))
+      .filter(Boolean);
+  }
+
   function reobserve() {
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(e => {
@@ -881,6 +940,13 @@
     // About avatar
     document.getElementById('avatar-initials').textContent = initials || '—';
     document.getElementById('about-fullname').textContent = [prenom, nom].filter(Boolean).join(' ') || '—';
+
+    const avatarImg = document.getElementById('avatar-img');
+    if (p.photo) {
+      avatarImg.src = p.photo;
+      avatarImg.style.display = 'block';
+      document.getElementById('avatar-initials').style.display = 'none';
+    }
 
     // About bio
     document.getElementById('about-bio-lead').textContent = p.bio || '';
@@ -942,19 +1008,28 @@
       container.innerHTML = '<p class="empty-state">Aucune expérience renseignée.</p>';
       return;
     }
-    container.innerHTML = exps.map((e, i) => `
+    container.innerHTML = exps.map((e, i) => {
+      const domain = getCompanyDomain(e.entreprise);
+      const logoHtml = domain
+        ? `<img src="https://www.google.com/s2/favicons?domain=${domain}&sz=64" alt="" class="exp-logo" onerror="this.remove()" />`
+        : '';
+      return `
       <div class="exp-item reveal${delayClass(i)}">
         <div class="exp-meta">
           <div class="exp-period">${fmtDate(e.date_debut)}<br>${fmtDate(e.date_fin)}</div>
           ${e.type_contrat ? `<span class="exp-type">${e.type_contrat}</span>` : ''}
         </div>
         <div class="exp-body">
-          <div class="exp-company">${e.entreprise || ''}</div>
+          <div class="exp-company-row">
+            ${logoHtml}
+            <div class="exp-company">${e.entreprise || ''}</div>
+          </div>
           ${e.poste ? `<div class="exp-role">${e.poste}</div>` : ''}
-          ${e.description_mission ? `<p class="exp-desc">${e.description_mission}</p>` : ''}
+          ${e.description_mission ? `<ul class="exp-desc bullet-list">${toBullets(e.description_mission).map(b => `<li>${b}</li>`).join('')}</ul>` : ''}
         </div>
       </div>
-    `).join('');
+    `;
+    }).join('');
     reobserve();
   }
 
@@ -994,7 +1069,7 @@
       <div class="proj-card reveal${delayClass(i)}">
         <div class="proj-num">${String(i + 1).padStart(2, '0')}</div>
         <div class="proj-title">${p.name || ''}</div>
-        <p class="proj-desc">${p.description || ''}</p>
+        ${p.description ? `<ul class="proj-desc bullet-list">${toBullets(p.description).map(b => `<li>${b}</li>`).join('')}</ul>` : ''}
         ${p.url ? `<a href="${p.url}" target="_blank" rel="noopener" class="proj-link">Voir le projet →</a>` : ''}
       </div>
     `).join('');

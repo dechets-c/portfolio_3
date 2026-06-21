@@ -27,13 +27,13 @@ from fastapi import HTTPException, status
 logger = logging.getLogger(__name__)
 
 
-def _to_db(data) -> dict:
+def _to_db(data, exclude_none: bool = False) -> dict:
     """Convertit un schéma Pydantic en dict compatible SQLAlchemy.
     HttpUrl et PhoneNumber → str, datetime/date restent tels quels."""
     from datetime import datetime, date as _date
 
     result = {}
-    for k, v in data.model_dump().items():
+    for k, v in data.model_dump(exclude_none=exclude_none).items():
         if isinstance(v, (str, int, float, bool, type(None), datetime, _date)):
             result[k] = v
         else:
@@ -320,7 +320,7 @@ def update_project(item_id: int, data: UpdateProject, db: Session = Depends(get_
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Item not found"
         )
-    for key, value in data.model_dump(exclude_none=True).items():
+    for key, value in _to_db(data, exclude_none=True).items():
         if hasattr(obj, key):
             setattr(obj, key, value)
     db.add(obj)
@@ -342,7 +342,7 @@ def update_competence(
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Item not found"
         )
-    for key, value in data.model_dump(exclude_none=True).items():
+    for key, value in _to_db(data, exclude_none=True).items():
         if hasattr(obj, key):
             setattr(obj, key, value)
     db.add(obj)
@@ -364,7 +364,7 @@ def update_formation(
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Item not found"
         )
-    for key, value in data.model_dump(exclude_none=True).items():
+    for key, value in _to_db(data, exclude_none=True).items():
         if hasattr(obj, key):
             setattr(obj, key, value)
     db.add(obj)
@@ -384,7 +384,7 @@ def update_outil(item_id: int, data: UpdateOutil, db: Session = Depends(get_db))
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Item not found"
         )
-    for key, value in data.model_dump(exclude_none=True).items():
+    for key, value in _to_db(data, exclude_none=True).items():
         if hasattr(obj, key):
             setattr(obj, key, value)
     db.add(obj)
@@ -404,7 +404,7 @@ def update_profile(item_id: int, data: UpdateProfil, db: Session = Depends(get_d
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Item not found"
         )
-    for key, value in data.model_dump(exclude_none=True).items():
+    for key, value in _to_db(data, exclude_none=True).items():
         if hasattr(obj, key):
             setattr(obj, key, value)
     db.add(obj)
@@ -424,7 +424,7 @@ def update_loisir(item_id: int, data: UpdateLoisir, db: Session = Depends(get_db
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Item not found"
         )
-    for key, value in data.model_dump(exclude_none=True).items():
+    for key, value in _to_db(data, exclude_none=True).items():
         if hasattr(obj, key):
             setattr(obj, key, value)
     db.add(obj)
@@ -444,7 +444,7 @@ def update_langage(item_id: int, data: UpdateLangage, db: Session = Depends(get_
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Item not found"
         )
-    for key, value in data.model_dump(exclude_none=True).items():
+    for key, value in _to_db(data, exclude_none=True).items():
         if hasattr(obj, key):
             setattr(obj, key, value)
     db.add(obj)
@@ -484,7 +484,7 @@ def update_experience(item_id: int, data: UpdateExperience, db: Session = Depend
     obj = db.query(models.Experience).filter(models.Experience.id == item_id).first()
     if not obj:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Item not found")
-    for key, value in data.model_dump(exclude_none=True).items():
+    for key, value in _to_db(data, exclude_none=True).items():
         if hasattr(obj, key):
             setattr(obj, key, value)
     db.add(obj)
@@ -524,7 +524,7 @@ def update_certification(item_id: int, data: UpdateCertification, db: Session = 
     obj = db.query(models.Certification).filter(models.Certification.id == item_id).first()
     if not obj:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Item not found")
-    for key, value in data.model_dump(exclude_none=True).items():
+    for key, value in _to_db(data, exclude_none=True).items():
         if hasattr(obj, key):
             setattr(obj, key, value)
     db.add(obj)

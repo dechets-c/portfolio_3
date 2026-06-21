@@ -1,0 +1,230 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{booktabs}
+\usepackage{graphicx}
+
+\usetheme{bjeldbak}
+\setbeamertemplate{footline}[frame number]
+\setbeamertemplate{navigation symbols}{} 
+\setkeys{Gin}{draft} % À commenter une fois les images ajoutées
+
+\title[\textbf{Portfolio S3}]{\textbf{Architecture Multi-Conteneurs \& Suivi de Projet}}
+\subtitle{Soutenance de Fin de Semestre}
+\author{\textbf{Reda BELARBI \\ Quentin DELRIVE}}
+\institute[IUT]{IUT - Département Science des Données}
+\date{22 Juin 2026}
+
+\begin{document}
+
+% --- SLIDE 1: TITRE ---
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% --- SLIDE 2: ORGANISATION ---
+\section{Organisation du travail}
+\begin{frame}{\large 1. Démarche et organisation du travail}
+  \begin{enumerate}
+      \item \textbf{Choix des outils du projets :}
+      \pause
+      \begin{itemize}
+          \item \textbf{bdd :} PostgreSQL;
+          \item \textbf{backend :} FastAPI;
+          \item \textbf{frontend :} Choix individuel;
+      \end{itemize}
+      \pause
+      \item \textbf{Création du schéma commun} de la base de données;
+      \pause
+      \item \textbf{Création de l'API commune};
+      \pause
+      \item \textbf{Instanciation} d'une bdd \textbf{individuelle};
+      \pause
+      \item \textbf{Création de la page admin commune};
+      \pause
+      \item \textbf{Adaptation du template au backend (individuel)};
+      \pause
+      \item \textbf{Remplissage des données} (individuel);
+  \end{enumerate}
+\end{frame}
+
+% --- SLIDE 3: IA ---
+\section{Utilisation de l'IA}
+\begin{frame}{\large 2. Utilisation de l'IA comme co-pilote}
+  \begin{itemize}
+      \item \textbf{Rôle \textit{stagiaire}};
+      \item \textbf{Tâches de remplissages} (ex: à partir de la bdd faire les modèles pydantic);
+      \item \textbf{Adapatation du frontend à l'API} : permet au frontend de requêter directement l'API;
+      \item \textbf{Réalisation du rapport d'activité} à partir des docs de travail;
+      \item \textbf{Base de la diapositive} : Structure de la diapo selon les consignes;
+  \end{itemize}
+\end{frame}
+
+% --- SLIDE 4: BUT 2 - OUTILS ---
+\section{Existant BUT 2}
+\begin{frame}{\large 3. Existant BUT 2 -- Outils \& Stack initiale (Quentin)}
+  \begin{itemize}
+    \item \textbf{Langages :} HTML et PHP;
+    \item \textbf{Stockage :} Données stocké dans une bdd local phpmyadmin (daté et non utilisé selon les standards actuels);
+    \item \textbf{Serveur :} Serveur sans reverse proxy et gestion de flux;
+    \item \textbf{Gestion de version :} Pas de versionning;
+  \end{itemize}
+\end{frame}
+
+% --- SLIDE 5: BUT 2 - BDD ---
+\begin{frame}{\large 3. Existant BUT 2 -- Volet Base de Données (Quentin)}
+  \begin{columns}[T]
+    \begin{column}{0.45\textwidth}
+      \begin{itemize}
+        \item \textbf{Structure :} Script SQL monolithique.
+        \item \textbf{Environnement :} Hébergement purement local sur machine physique.
+        \item \textbf{Limitation :} Absence d'isolation, de conteneurisation et de persistance partagée.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.52\textwidth}
+      \centering
+      \includegraphics[width=0.9\textwidth, height=3.8cm]{capture_but2_bdd.png}
+      \small{\textit{Structure SQL initiale}}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% --- SLIDE 6: BUT 2 - ADMIN ---
+\begin{frame}{\large 3. Existant BUT 2 -- Partie Administration (Quentin)}
+  \begin{columns}[T]
+    \begin{column}{0.45\textwidth}
+      \begin{itemize}
+        \item \textbf{Ergonomie :} peu lisible et maniable;
+        \item \textbf{Modèle lourd :} Modèle plus lourd, ce qui avait un impact sur le nombre de formulaire à remplir;
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.52\textwidth}
+      \centering
+      \includegraphics[width=0.9\textwidth, height=3.8cm]{capture_but2_admin.png}
+      \small{\textit{Interface admin d'origine}}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% --- SLIDE 7: BUT 2 - PUBLIC ---
+\begin{frame}{\large 3. Existant BUT 2 -- Page Publique (Quentin)}
+  \begin{columns}[T]
+    \begin{column}{0.45\textwidth}
+      \begin{itemize}
+        \item \textbf{Site statique}: renvoie d'HTML basique par le serveur;
+        \item \textbf{Laid :} pas de vraie cohérence graphique;
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.52\textwidth}
+      \centering
+      \includegraphics[width=0.9\textwidth, height=3.8cm]{capture_but2_public.png}
+      \small{\textit{Rendu public d'origine}}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% --- SLIDE 7bis: BUT 2 - REDA ---
+\begin{frame}{\large 3. Existant BUT 2 -- Volet Réda}
+  \begin{itemize}
+    \item \textbf{Aucune base de données existante :} pas de site ni de stockage hérité du BUT 2;
+    \item \textbf{Problématique :} comment alimenter la nouvelle base de façon cohérente sans support de départ ?
+    \item \textbf{Solution :} création d'un \textbf{cahier de recensement} de mes projets, expériences et compétences;
+    \item \textbf{Objectif du cahier :} lister et qualifier chaque élément avant intégration dans le schéma commun, pour une alimentation \textbf{sélective et maîtrisée} plutôt qu'un import brut;
+  \end{itemize}
+\end{frame}
+
+% --- SLIDE 8: BUT 3 - BDD ---
+\section{Travail en BUT 3}
+\begin{frame}{\large 4. Travail en BUT 3 -- Volet Base de Données}
+  \begin{columns}[T]
+    \begin{column}{0.45\textwidth}
+      \begin{itemize}
+        \item \textbf{Migration :} Passage sous PostgreSQL (moderne et fiable);
+        \item \textbf{Modèle allégé :} Suppression des tables inutiles / lourdes;
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.52\textwidth}
+      \centering
+      \includegraphics[width=0.9\textwidth, height=3.8cm]{capture_but3_bdd.png}
+      \small{\textit{Schéma relationnel sous PostgreSQL}}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% --- SLIDE 9: BUT 3 - ADMIN ---
+\begin{frame}{\large 4. Travail en BUT 3 -- Volet Administration}
+  \begin{columns}[T]
+    \begin{column}{0.45\textwidth}
+      \begin{itemize}
+        \item \textbf{Sécurisation :} Endpoints FastAPI protégés par flux de tokens JWT asynchrones;
+        \item \textbf{Amélioration visuelle :} Plus beau et moderne;
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.52\textwidth}
+      \centering
+      \includegraphics[width=0.9\textwidth, height=3.8cm]{capture_but3_admin.png}
+      \small{\textit{Interface de gestion sécurisée}}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% --- SLIDE 10: BUT 3 - PUBLIC ---
+\begin{frame}{\large 4. Travail en BUT 3 -- Volet Page Publique}
+  \begin{itemize}
+    \item \textbf{Amélioration visuelles} : Plus beau et moderne;
+    \item \textbf{Plus lisible :} Amélioration de l'agencement des éléments et de leurs ordres;
+    \item \textbf{Liens et éléments interactifs}
+  \end{itemize}
+  \vspace{0.1cm}
+  \begin{columns}[c]
+    \begin{column}{0.48\textwidth}
+      \centering
+      \includegraphics[width=0.95\textwidth, height=3.2cm]{capture_public_quentin.png}
+      \small{\textit{Profil \& Projets (Quentin)}}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \centering
+      \includegraphics[width=0.95\textwidth, height=3.2cm]{capture_public_reda.png}
+      \small{\textit{Formations \& Outils (Réda)}}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% --- SLIDE 11: RESTITUTION ---
+\section{Restitution des données}
+\begin{frame}{\large 5. Restitution et intégration des données}
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      Pas d'idée je verrai demain
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \centering
+      \includegraphics[width=0.9\textwidth, height=3.8cm]{capture_restitution_final.png}
+      \small{\textit{Restitution temps réel du Portfolio}}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% --- SLIDE 12: CONCLUSIONS ---
+\section{Conclusions}
+\begin{frame}{\large Conclusions et perspectives}
+  \begin{block}{\textbf{Bilan du Projet}}
+    \begin{itemize}
+      \item \textbf{Compétences web et backend} accru;
+      \item \textbf{Développement d'API} moderne;
+      \item \textbf{Gestion de projet};
+      \item \textbf{Séparation propre du backend et frontend};
+      \item \textbf{Intégrité de la données} grâce à du typage avec pydantic;
+    \end{itemize}
+  \end{block}
+  \vspace{0.1cm}
+  \begin{alertblock}{\textbf{Perspectives}}
+    \begin{itemize}
+      \item Intégration directe des projets git sur le portfolio;
+      \item CI/CD pour uploader directement le site;
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}
